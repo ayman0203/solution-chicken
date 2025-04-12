@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <title>Solution Chicken</title>
+
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Poppins', sans-serif;
+            background-color: whitesmoke;
+        }
+
+        .main-content {
+            position: relative;
+            color: white;
+            padding: 20px;
+        }
+
+        h1 {
+            color: black;
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1.8rem;
+        }
+
+        h1 span {
+            color: red;
+        }
+
+        .game-container {
+            margin: auto;
+            max-width: 90%;
+        }
+
+        .liparent {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            padding: 0;
+            max-width: 500px;
+            margin: auto;
+        }
+
+        .liparent > li {
+            list-style: none;
+            padding: 10px;
+        }
+
+        .liparent > li > img {
+            width: 60px;
+            height: auto;
+        }
+
+        @media screen and (min-width: 1024px) {
+            .liparent {
+                max-width: 700px;
+            }
+
+            .liparent > li > img {
+                width: 100px;
+            }
+        }
+
+        .access-denied {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 1.5rem;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <div class="main-content">
+            <h1>Solution <span>Chicken</span></h1>
+            <div class="game-container" id="ParentOfUl" style="display: none;">
+                <ul class="liparent" id="dish-covers"></ul>
+            </div>
+            <div id="deniedMessage" class="access-denied" style="display: none;">
+                ❌ Accès refusé. ID incorrect.
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const totalDishes = 25;
+
+        function displaySolution() {
+            for (let a = 0; a < totalDishes; a++) {
+                const liElement = document.createElement('li');
+                liElement.id = (a + 1).toString();
+
+                liElement.innerHTML = '<img src="http://royalcasino.totalh.net/htdocs//closed-dish-cover.png" alt="Dish Cover" />';
+                document.getElementById('dish-covers').appendChild(liElement);
+            }
+
+            revealDishes();
+        }
+
+        function revealDishes() {
+            const chickenPositions = JSON.parse(localStorage.getItem('savedChickenPositions')) || [];
+            const bonePositions = JSON.parse(localStorage.getItem('savedBonePositions')) || [];
+            const dishItems = document.querySelectorAll('.liparent > li');
+
+            dishItems.forEach((liElement, index) => {
+                if (chickenPositions.includes(index + 1)) {
+                    displayChicken(liElement);
+                } else if (bonePositions.includes(index + 1)) {
+                    displayBone(liElement);
+                }
+            });
+        }
+
+        function displayChicken(element) {
+            const chickenImageElement = document.createElement('img');
+            chickenImageElement.src = 'http://royalcasino.totalh.net/htdocs//poulet.png';
+            chickenImageElement.alt = 'Chicken';
+            element.innerHTML = '';
+            element.appendChild(chickenImageElement);
+        }
+
+        function displayBone(element) {
+            const boneImageElement = document.createElement('img');
+            boneImageElement.src = 'http://royalcasino.totalh.net/htdocs//bones.png';
+            boneImageElement.alt = 'Bone';
+            element.innerHTML = '';
+            element.appendChild(boneImageElement);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const userId = prompt("Entrez votre ID :");
+            if (userId === "12488") {
+                document.getElementById("ParentOfUl").style.display = "block";
+                displaySolution();
+            } else {
+                document.getElementById("deniedMessage").style.display = "block";
+            }
+        });
+    </script>
+</body>
+</html>
